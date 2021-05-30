@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BiciklinoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Delovi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Deo" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Novi Deo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NazivOglasa" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="VrstaDelaID" Type="int" Nullable="false" />
+          <Property Name="OpisOglasa" Type="nchar" MaxLength="10" />
+          <Property Name="Proizvodjac" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Novi Deo_Delovi">
+          <End Role="Delovi" Type="Self.Delovi" Multiplicity="1" />
+          <End Role="Novi Deo" Type="Self.Novi Deo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Delovi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Novi Deo">
+              <PropertyRef Name="VrstaDelaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BiciklinoModelStoreContainer">
+          <EntitySet Name="Delovi" EntityType="Self.Delovi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Novi Deo" EntityType="Self.Novi Deo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Novi Deo_Delovi" Association="Self.FK_Novi Deo_Delovi">
+            <End Role="Delovi" EntitySet="Delovi" />
+            <End Role="Novi Deo" EntitySet="Novi Deo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BiciklinoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Delovi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Deo" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Novi_Deo" Relationship="Self.FK_Novi_Deo_Delovi" FromRole="Delovi" ToRole="Novi_Deo" />
+        </EntityType>
+        <EntityType Name="Novi_Deo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NazivOglasa" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="VrstaDelaID" Type="Int32" Nullable="false" />
+          <Property Name="OpisOglasa" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Proizvodjac" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Delovi" Relationship="Self.FK_Novi_Deo_Delovi" FromRole="Novi_Deo" ToRole="Delovi" />
+        </EntityType>
+        <Association Name="FK_Novi_Deo_Delovi">
+          <End Role="Delovi" Type="Self.Delovi" Multiplicity="1" />
+          <End Role="Novi_Deo" Type="Self.Novi_Deo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Delovi">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Novi_Deo">
+              <PropertyRef Name="VrstaDelaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BiciklinoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Delovis" EntityType="Self.Delovi" />
+          <EntitySet Name="Novi_Deos" EntityType="Self.Novi_Deo" />
+          <AssociationSet Name="FK_Novi_Deo_Delovi" Association="Self.FK_Novi_Deo_Delovi">
+            <End Role="Delovi" EntitySet="Delovis" />
+            <End Role="Novi_Deo" EntitySet="Novi_Deos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BiciklinoModelStoreContainer" CdmEntityContainer="BiciklinoEntities">
+          <EntitySetMapping Name="Delovis">
+            <EntityTypeMapping TypeName="BiciklinoModel.Delovi">
+              <MappingFragment StoreEntitySet="Delovi">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Deo" ColumnName="Deo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Novi_Deos">
+            <EntityTypeMapping TypeName="BiciklinoModel.Novi_Deo">
+              <MappingFragment StoreEntitySet="Novi Deo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="NazivOglasa" ColumnName="NazivOglasa" />
+                <ScalarProperty Name="VrstaDelaID" ColumnName="VrstaDelaID" />
+                <ScalarProperty Name="OpisOglasa" ColumnName="OpisOglasa" />
+                <ScalarProperty Name="Proizvodjac" ColumnName="Proizvodjac" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

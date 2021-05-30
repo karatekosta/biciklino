@@ -13,29 +13,19 @@ namespace Biciklino
 {
     public partial class Form1 : Form
     {
+        private readonly BiciklinoEntities biciklino;
         public Form1()
         {
             InitializeComponent();
+            biciklino = new BiciklinoEntities();
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxKategorija_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelKategorija_Click(object sender, EventArgs e)
-        {
-
+            var vrsta = biciklino.Delovis.ToList();
+            comboBoxKategorija.DisplayMember = "Deo";
+            comboBoxKategorija.ValueMember = "id";
+            comboBoxKategorija.DataSource = vrsta;
         }
 
         private void kalkulatorPP_Click(object sender, EventArgs e)
@@ -50,19 +40,31 @@ namespace Biciklino
             oglas.Show();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        #region 
+        private void labelKategorija_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void comboBoxKategorija_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, panel1.ClientRectangle,
+              Color.DimGray, 1, ButtonBorderStyle.Solid, // left
+              Color.DimGray, 1, ButtonBorderStyle.Solid, // top
+              Color.DimGray, 1, ButtonBorderStyle.Solid, // right
+              Color.DimGray, 1, ButtonBorderStyle.Solid);
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void labelNazivOglasa_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
